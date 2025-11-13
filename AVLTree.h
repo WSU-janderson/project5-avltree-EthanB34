@@ -5,6 +5,9 @@
 #ifndef AVLTREE_H
 #define AVLTREE_H
 #include <string>
+#include <vector>
+#include <optional>
+#include <iostream>
 
 using namespace std;
 
@@ -23,6 +26,9 @@ protected:
         AVLNode* left;
         AVLNode* right;
 
+
+        AVLNode(const KeyType &k, ValueType v);
+
         // 0, 1 or 2
         size_t numChildren() const;
         // true or false
@@ -35,6 +41,23 @@ protected:
 
 public:
 
+AVLTree();
+AVLTree(const AVLTree& other);
+    AVLTree& operator=(const AVLTree& other);
+    ~AVLTree();
+
+    bool insert(const KeyType& k, ValueType v);
+    bool remove(const KeyType& k);
+    bool contains(const KeyType& k) const;
+    std::optional<ValueType> get(const KeyType& k) const;
+    size_t& operator[](const std::string& k);
+
+    vector<string> findRange(const KeyType& lowKey,
+                                     const KeyType& highKey) const;
+    vector<string> keys() const;
+
+    size_t size() const;
+    size_t getHeight() const;
 
 
 
