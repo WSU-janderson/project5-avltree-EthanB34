@@ -21,7 +21,7 @@ protected:
     public:
         KeyType key;
         ValueType value;
-        size_t height;
+        int height;
 
         AVLNode* left;
         AVLNode* right;
@@ -57,13 +57,13 @@ AVLTree(const AVLTree& other);
     vector<string> keys() const;
 
     size_t size() const;
-    size_t getHeight() const;
+
 
 
 
     private:
     AVLNode* root;
-
+    bool insert(AVLNode*& current, const KeyType& k, ValueType v);
     /* Helper methods for remove */
     // this overloaded remove will do the recursion to remove the node
     bool remove(AVLNode*& current, KeyType key);

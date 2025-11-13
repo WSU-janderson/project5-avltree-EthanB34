@@ -1,27 +1,56 @@
 #include "AVLTree.h"
 
+#include <algorithm>
 #include <string>
 #include <iostream>
 #include <vector>
 #include <optional>
 AVLTree::AVLNode::AVLNode(const KeyType& k, ValueType v) :
                                     key(k), value(v), height(0), left(nullptr), right(nullptr) {}
+AVLTree::AVLTree() : root(nullptr) {}
 
+AVLTree::~AVLTree() {
 
+}
 size_t AVLTree::AVLNode::numChildren() const {
-    return 0;
+    size_t childCount = 0;
+    if (left) childCount++;
+    if (right) childCount++;
+    return childCount;
 }
 
 bool AVLTree::AVLNode::isLeaf() const {
-    return false;
+    return !left && !right;
 }
 
 size_t AVLTree::AVLNode::getHeight() const {
-    return 0;
+    return static_cast<size_t>(height);
 }
 bool AVLTree::insert(const KeyType& k, ValueType v) {
-    return false;
+    return insert(root, k, v);
 }
+bool AVLTree::insert(AVLNode*& current, const KeyType& k, ValueType v) {
+    if (!current) {
+        current = new AVLNode(k, v);
+        return true;
+    }
+    if (k == current->key) {
+        return false;
+    }
+    bool wasInserted = false;
+    if (k < current->key) {
+        wasInserted = insert(current->left, k, v);
+    } else {
+        wasInserted = insert(current->right, k, v);
+    }
+    if (wasInserted) {
+        int leftHeight = current->left ? current->left->height : -1;
+        int rightHeight = current->right ? current->right->height : -1;
+        current->height = 1+std::max(leftHeight, rightHeight);
+    }
+    return wasInserted;
+}
+
 bool AVLTree::contains(const KeyType& k) const {
     return false;
 }
@@ -29,7 +58,8 @@ std::optional<AVLTree::ValueType> AVLTree::get(const KeyType& k) const {
     return std::nullopt;
 }
 AVLTree::ValueType& AVLTree::operator[](const KeyType& k) {
-
+static size_t val = 0;
+    return val;
 }
 std::vector<AVLTree::KeyType> AVLTree::findRange(const KeyType& lowKey, const KeyType& highKey) const {
     return{};
