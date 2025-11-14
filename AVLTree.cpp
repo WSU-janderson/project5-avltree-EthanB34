@@ -52,8 +52,20 @@ bool AVLTree::insert(AVLNode*& current, const KeyType& k, ValueType v) {
 }
 
 bool AVLTree::contains(const KeyType& k) const {
-    return false;
+    return contains (root, k);
 }
+bool AVLTree::contains(const AVLNode *current, const KeyType &k) const {
+    if (!current) {
+        return false;
+    } else if (k == current->key) {
+        return true;
+    } else if (k < current->key) {
+        return contains(current->left, k);
+    }
+    return contains(current->right, k);
+    }
+
+
 std::optional<AVLTree::ValueType> AVLTree::get(const KeyType& k) const {
     return std::nullopt;
 }

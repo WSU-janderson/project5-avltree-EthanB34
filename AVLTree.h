@@ -65,6 +65,7 @@ friend std::ostream& operator<<(std::ostream& os, const AVLTree& avlTree);
     AVLNode* root;
     bool insert(AVLNode*& current, const KeyType& k, ValueType v);
     void printInorder(std::ostream& os, const AVLNode* current, int depth) const;
+    bool contains(const AVLNode* current, const KeyType& k) const;
     /* Helper methods for remove */
     // this overloaded remove will do the recursion to remove the node
     bool remove(AVLNode*& current, KeyType key);
