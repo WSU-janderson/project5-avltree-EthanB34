@@ -17,9 +17,13 @@ int main() {
 
     AVLTree tree;
     bool insertResult;
-    insertResult = tree.insert("F", 12);
-     insertResult = tree.insert("F", 12);
-    insertResult = tree.insert("K", 34);
+    insertResult = tree.insert("J", 12);
+    insertResult = tree.insert("X", 34);
+    insertResult = tree.insert("S", 12);
+    insertResult = tree.insert("Z", 34);
+    insertResult = tree.insert("G", 12);
+    insertResult = tree.insert("C", 34);
+cout << tree << endl;
     // insertResult = tree.insert("X", 'X');// single rotate left
     // cout << endl << endl;
     // cout << tree << endl;

@@ -72,10 +72,23 @@ size_t AVLTree::size() const {
     return 0;
 }
 
-std::ostream& operator<<(std::ostream& os, const AVLTree& avlTree) {
-    return os;
+
+void AVLTree::printInorder(std::ostream& os, const AVLNode* current, int depth) const {
+    if (!current) return;
+    {
+        printInorder(os, current->right, depth + 1);
+        for (int i = 0; i < depth; i++) {
+            os <<"    ";
+        }
+        os << "{"  << current->key << ": " <<  current->value << "}" << std::endl;
+        printInorder(os, current->left, depth + 1);
+    }
 }
 
+std::ostream& operator<<(std::ostream& os, const AVLTree& avlTree) {
+   avlTree.printInorder(os, avlTree.root, 0);
+    return os;
+}
 
 
 
