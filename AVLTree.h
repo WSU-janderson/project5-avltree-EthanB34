@@ -43,7 +43,12 @@ public:
 
 AVLTree();
 AVLTree(const AVLTree& other);
-    AVLTree& operator=(const AVLTree& other);
+
+    AVLNode *clone(const AVLNode *other);
+
+
+
+    void operator=(const AVLTree& other);
     ~AVLTree();
 
     bool insert(const KeyType& k, ValueType v);
@@ -56,9 +61,13 @@ friend std::ostream& operator<<(std::ostream& os, const AVLTree& avlTree);
                                      const KeyType& highKey) const;
     vector<string> keys() const;
 
+    void keys(AVLNode *current, vector<KeyType> &result) const;
+
     size_t size() const;
 
     size_t getHeight() const;
+
+
 
 private:
     AVLNode* root;
@@ -68,6 +77,7 @@ private:
     bool contains(const AVLNode* current, const KeyType& k) const;
     std::optional<ValueType> get(const AVLNode* current, const KeyType& k) const;
     AVLNode* findOperator(AVLNode* current, const KeyType& k) const;
+    void clear(AVLNode*& root);
     void findRange (AVLNode* node,
         const KeyType& lowKey,
         const KeyType& highKey,

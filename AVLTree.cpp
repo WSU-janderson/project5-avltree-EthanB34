@@ -10,7 +10,14 @@ AVLTree::AVLNode::AVLNode(const KeyType& k, ValueType v) :
 AVLTree::AVLTree() : root(nullptr) {}
 
 AVLTree::~AVLTree() {
-
+clear(root);
+}
+void AVLTree::clear(AVLNode*& current) {
+    if (!current) return;
+    clear(current->left);
+    clear(current->right);
+    delete current;
+    current = nullptr;
 }
 size_t AVLTree::AVLNode::numChildren() const {
     size_t childCount = 0;
@@ -129,9 +136,18 @@ void AVLTree::findRange(AVLNode* current,
 }
 
 std::vector<AVLTree::KeyType> AVLTree::keys() const {
-    return{};
+std::vector<KeyType> result;
+    keys(root, result);
+    return result;
 }
-
+void AVLTree::keys(AVLNode *current, vector<KeyType> &result) const {
+    if (!current) {
+        return;
+    }
+    keys(current->left, result);
+    result.push_back(current->key);
+    keys(current->right, result);
+}
 
 size_t AVLTree::size() const {
     return nodePairs;
@@ -156,7 +172,27 @@ std::ostream& operator<<(std::ostream& os, const AVLTree& avlTree) {
    avlTree.printInorder(os, avlTree.root, 0);
     return os;
 }
+AVLTree::AVLTree(const AVLTree& other) {
+root = clone(other.root);
+}
+AVLTree::AVLNode* AVLTree::clone(const AVLNode* other) {
+    if (!other) {
+        return nullptr;
+    }
+    AVLNode* newNode = new AVLNode (other->key, other->value );
+    newNode->height = other->height;
 
+    newNode->left = clone(other->left);
+    newNode->right = clone(other->right);
+    return newNode;
+}
+void AVLTree::operator=(const AVLTree &other) {
+if (this == &other) {
+    return;
+}
+    clear(root);
+    root = clone(other.root);
+}
 
 
 
@@ -195,7 +231,7 @@ bool AVLTree::removeNode(AVLNode*& current){
         current->value = newValue;
 
         current->height = current->getHeight();
-        balanceNode(current);
+       // balanceNode(current);
 
         return true; // we already deleted the one we needed to so return
     }

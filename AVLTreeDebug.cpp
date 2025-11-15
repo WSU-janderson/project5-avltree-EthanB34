@@ -28,10 +28,10 @@ int main() {
    // cout << *val << endl;
 cout << tree << endl;
     tree["C"] = 99;
-    cout << tree << endl;
-   size_t val = tree.getHeight();
-    cout << val << endl;
-    tree.findRange("S", "Z");
+
+    AVLTree tree2 = tree;
+cout << tree2 << endl;
+
 
     // insertResult = tree.insert("X", 'X');// single rotate left
     // cout << endl << endl;
