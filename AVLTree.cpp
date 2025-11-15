@@ -47,6 +47,7 @@ bool AVLTree::insert(AVLNode*& current, const KeyType& k, ValueType v) {
         int leftHeight = current->left ? current->left->height : -1;
         int rightHeight = current->right ? current->right->height : -1;
         current->height = 1+std::max(leftHeight, rightHeight);
+        nodePairs++;
     }
     return wasInserted;
 }
@@ -112,10 +113,12 @@ std::vector<AVLTree::KeyType> AVLTree::keys() const {
     return{};
 }
 size_t AVLTree::size() const {
-    return 0;
+    return nodePairs;
 }
 
-
+size_t AVLTree::getHeight() const {
+    return root ? root->height : 0;
+}
 void AVLTree::printInorder(std::ostream& os, const AVLNode* current, int depth) const {
     if (!current) return;
     {

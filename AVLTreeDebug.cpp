@@ -29,6 +29,8 @@ int main() {
 cout << tree << endl;
     tree["C"] = 99;
     cout << tree << endl;
+   size_t val = tree.getHeight();
+    cout << val << endl;
     // insertResult = tree.insert("X", 'X');// single rotate left
     // cout << endl << endl;
     // cout << tree << endl;

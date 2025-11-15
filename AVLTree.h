@@ -58,11 +58,11 @@ friend std::ostream& operator<<(std::ostream& os, const AVLTree& avlTree);
 
     size_t size() const;
 
+    size_t getHeight() const;
 
-
-
-    private:
+private:
     AVLNode* root;
+    size_t nodePairs = 0;
     bool insert(AVLNode*& current, const KeyType& k, ValueType v);
     void printInorder(std::ostream& os, const AVLNode* current, int depth) const;
     bool contains(const AVLNode* current, const KeyType& k) const;
