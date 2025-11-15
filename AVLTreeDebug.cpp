@@ -31,6 +31,8 @@ cout << tree << endl;
     cout << tree << endl;
    size_t val = tree.getHeight();
     cout << val << endl;
+    tree.findRange("S", "Z");
+
     // insertResult = tree.insert("X", 'X');// single rotate left
     // cout << endl << endl;
     // cout << tree << endl;
@@ -80,12 +82,12 @@ cout << tree << endl;
 //    cout << endl;
 //
 //    // findRange
-//    vector<int> rangeTest = tree.findRange("D", "W");
-//    // 70 68 82 75 77 86
-//    for (auto val: rangeTest) {
-//        cout << val << " ";
-//    }
-//    cout << endl << endl;
+   vector<size_t> rangeTest = tree.findRange("S", "Z");
+//    // 70 68 82 75 77 ,, 12,34,34
+    for (auto val: rangeTest) {
+        cout << val << " ";
+    }
+    cout << endl << endl;
 //
 //    // operator[]
 //    tree["A"] = 108;

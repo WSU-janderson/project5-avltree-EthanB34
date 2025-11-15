@@ -52,7 +52,7 @@ AVLTree(const AVLTree& other);
     std::optional<ValueType> get(const KeyType& k) const;
     size_t& operator[](const std::string& k);
 friend std::ostream& operator<<(std::ostream& os, const AVLTree& avlTree);
-    vector<string> findRange(const KeyType& lowKey,
+    vector<size_t> findRange(const KeyType& lowKey,
                                      const KeyType& highKey) const;
     vector<string> keys() const;
 
@@ -68,6 +68,10 @@ private:
     bool contains(const AVLNode* current, const KeyType& k) const;
     std::optional<ValueType> get(const AVLNode* current, const KeyType& k) const;
     AVLNode* findOperator(AVLNode* current, const KeyType& k) const;
+    void findRange (AVLNode* node,
+        const KeyType& lowKey,
+        const KeyType& highKey,
+        std::vector<ValueType>& result) const;
     /* Helper methods for remove */
     // this overloaded remove will do the recursion to remove the node
     bool remove(AVLNode*& current, KeyType key);
