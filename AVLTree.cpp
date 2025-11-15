@@ -84,9 +84,26 @@ AVLTree::get(const AVLNode *current, const KeyType &k) const {
     }
 }
 AVLTree::ValueType& AVLTree::operator[](const KeyType& k) {
-static size_t val = 0;
-    return val;
+AVLNode* current = findOperator(root, k);
+    if (!current) {
+        static ValueType dummy = ValueType();
+        return dummy;
+    }
+    return current->value;
 }
+AVLTree::AVLNode *AVLTree::findOperator(AVLNode *current, const KeyType &k) const {
+    if (!current) {
+        return nullptr;
+    }
+    if (k == current->key) {
+        return current;
+    }
+    if (k < current->key) {
+        return findOperator(current->left, k);
+    }
+    return findOperator(current->right, k);
+}
+
 std::vector<AVLTree::KeyType> AVLTree::findRange(const KeyType& lowKey, const KeyType& highKey) const {
     return{};
 }
