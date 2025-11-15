@@ -23,6 +23,8 @@ int main() {
     insertResult = tree.insert("Z", 34);
     insertResult = tree.insert("G", 12);
     insertResult = tree.insert("C", 34);
+   // optional val = tree.get("X");
+   // cout << *val << endl;
 //cout << tree << endl;
     // insertResult = tree.insert("X", 'X');// single rotate left
     // cout << endl << endl;

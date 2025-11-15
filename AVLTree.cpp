@@ -67,7 +67,21 @@ bool AVLTree::contains(const AVLNode *current, const KeyType &k) const {
 
 
 std::optional<AVLTree::ValueType> AVLTree::get(const KeyType& k) const {
-    return std::nullopt;
+    return get(root, k);
+}
+std::optional<AVLTree::ValueType>
+AVLTree::get(const AVLNode *current, const KeyType &k) const {
+    if (!current) {
+        return std::nullopt;
+    }
+    if (k == current->key) {
+        return current->value;
+    }
+    if (k < current->key) {
+        return get(current->left, k);
+    } else {
+        return get(current->right, k);
+    }
 }
 AVLTree::ValueType& AVLTree::operator[](const KeyType& k) {
 static size_t val = 0;
