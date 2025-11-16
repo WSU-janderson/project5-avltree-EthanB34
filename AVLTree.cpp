@@ -240,9 +240,38 @@ bool AVLTree::removeNode(AVLNode*& current){
     return true;
 }
 
-bool AVLTree::remove(AVLNode *&current, KeyType key) {
-    return false;
+bool AVLTree::remove(const KeyType& k) {
+    return remove(root, k);
 }
-
+bool AVLTree::remove(AVLNode*& current,KeyType k) {
+    if (!current) return false;
+    if (k < current->key ) {
+        bool removed = remove(current->left,k);
+        if (removed) {
+            int leftHeight = current->left ? current->left->height : -1;
+            int rightHeight = current->right ? current->right->height : -1;
+            current->height = 1+std::max(leftHeight, rightHeight);
+        }
+        return removed;
+    }
+    else if (k > current->key) {
+        bool removed = remove(current->right,k);
+        if (removed) {
+            int leftHeight = current->left ? current->left->height : -1;
+            int rightHeight = current->right ? current->right->height : -1;
+            current->height = 1+std::max(leftHeight, rightHeight);
+        }
+        return removed;
+    }
+    else {
+        bool removed = removeNode(current);
+        if (current) {
+            int leftHeight = current->left ? current->left->height : -1;
+            int rightHeight = current->right ? current->right->height : -1;
+            current->height = 1+std::max(leftHeight, rightHeight);
+        }
+        return removed;
+    }
+}
 void AVLTree::balanceNode(AVLNode *&node) {
 }

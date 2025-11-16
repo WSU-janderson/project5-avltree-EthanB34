@@ -28,7 +28,7 @@ int main() {
    // cout << *val << endl;
 cout << tree << endl;
     tree["C"] = 99;
-
+tree.remove("J");
     AVLTree tree2 = tree;
 cout << tree2 << endl;
 
