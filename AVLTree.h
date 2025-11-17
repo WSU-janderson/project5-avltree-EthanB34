@@ -35,6 +35,7 @@ protected:
         bool isLeaf() const;
         // number of hops to deepest leaf node
         size_t getHeight() const;
+        int getBalance() const;
 
 
     };
@@ -90,6 +91,10 @@ private:
     // You will implement this, but it is needed for removeNode()
     void balanceNode(AVLNode*& node);
 
+    void updateHeight(AVLNode *&current);
+
+    AVLNode* rotateRight(AVLNode*& current);
+    AVLNode* rotateLeft(AVLNode*& current);
 };
 
 #endif //AVLTREE_H

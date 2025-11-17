@@ -33,13 +33,20 @@ bool AVLTree::AVLNode::isLeaf() const {
 size_t AVLTree::AVLNode::getHeight() const {
     return static_cast<size_t>(height);
 }
+int AVLTree::AVLNode::getBalance() const {
+    int leftHeight = left ? left->height : -1;
+    int rightHeight = right ? right->height : -1;
+    return (leftHeight - rightHeight);
+}
 bool AVLTree::insert(const KeyType& k, ValueType v) {
     return insert(root, k, v);
 }
 bool AVLTree::insert(AVLNode*& current, const KeyType& k, ValueType v) {
     if (!current) {
         current = new AVLNode(k, v);
+        nodePairs++;
         return true;
+
     }
     if (k == current->key) {
         return false;
@@ -47,6 +54,7 @@ bool AVLTree::insert(AVLNode*& current, const KeyType& k, ValueType v) {
     bool wasInserted = false;
     if (k < current->key) {
         wasInserted = insert(current->left, k, v);
+
     } else {
         wasInserted = insert(current->right, k, v);
     }
@@ -54,10 +62,14 @@ bool AVLTree::insert(AVLNode*& current, const KeyType& k, ValueType v) {
         int leftHeight = current->left ? current->left->height : -1;
         int rightHeight = current->right ? current->right->height : -1;
         current->height = 1+std::max(leftHeight, rightHeight);
-        nodePairs++;
-    }
+
+
+        }
+    balanceNode(current);
     return wasInserted;
-}
+    }
+
+
 
 bool AVLTree::contains(const KeyType& k) const {
     return contains (root, k);
@@ -172,8 +184,10 @@ std::ostream& operator<<(std::ostream& os, const AVLTree& avlTree) {
    avlTree.printInorder(os, avlTree.root, 0);
     return os;
 }
-AVLTree::AVLTree(const AVLTree& other) {
+AVLTree::AVLTree(const AVLTree& other)
+    :root(nullptr), nodePairs(0) {
 root = clone(other.root);
+    nodePairs = other.nodePairs;
 }
 AVLTree::AVLNode* AVLTree::clone(const AVLNode* other) {
     if (!other) {
@@ -181,6 +195,7 @@ AVLTree::AVLNode* AVLTree::clone(const AVLNode* other) {
     }
     AVLNode* newNode = new AVLNode (other->key, other->value );
     newNode->height = other->height;
+
 
     newNode->left = clone(other->left);
     newNode->right = clone(other->right);
@@ -192,6 +207,7 @@ if (this == &other) {
 }
     clear(root);
     root = clone(other.root);
+
 }
 
 
@@ -233,11 +249,13 @@ bool AVLTree::removeNode(AVLNode*& current){
         current->height = current->getHeight();
        // balanceNode(current);
 
+
         return true; // we already deleted the one we needed to so return
     }
     delete toDelete;
-
+    nodePairs--;
     return true;
+
 }
 
 bool AVLTree::remove(const KeyType& k) {
@@ -248,30 +266,89 @@ bool AVLTree::remove(AVLNode*& current,KeyType k) {
     if (k < current->key ) {
         bool removed = remove(current->left,k);
         if (removed) {
-            int leftHeight = current->left ? current->left->height : -1;
-            int rightHeight = current->right ? current->right->height : -1;
-            current->height = 1+std::max(leftHeight, rightHeight);
+            updateHeight(current);
         }
         return removed;
     }
     else if (k > current->key) {
         bool removed = remove(current->right,k);
         if (removed) {
-            int leftHeight = current->left ? current->left->height : -1;
-            int rightHeight = current->right ? current->right->height : -1;
-            current->height = 1+std::max(leftHeight, rightHeight);
+           updateHeight(current);
         }
         return removed;
+
     }
     else {
         bool removed = removeNode(current);
         if (current) {
-            int leftHeight = current->left ? current->left->height : -1;
-            int rightHeight = current->right ? current->right->height : -1;
-            current->height = 1+std::max(leftHeight, rightHeight);
+           updateHeight(current);
         }
+
         return removed;
+
     }
 }
-void AVLTree::balanceNode(AVLNode *&node) {
+void AVLTree::balanceNode(AVLNode* &node) {
+    if (!node) {
+        return;
+    }
+
+updateHeight(node);
+
+    if (const int bal =  node->getBalance(); bal > 1) {
+        int rightBal = node->right ? node->right->getBalance() : 0;
+        if (rightBal >= 0) {
+           node = rotateLeft(node);
+        } else {
+           node->right = rotateRight(node->right);
+           node =  rotateLeft(node);
+        }
+    } else if (bal < -1) {
+        int leftBal = node->left ? node->left->getBalance() : 0;
+        if (leftBal <= 0) {
+          node =   rotateRight(node);
+        } else {
+         node->left =    rotateLeft(node->left);
+          node =  rotateRight(node);
+        }
+    }
+}
+
+
+
+
+void AVLTree::updateHeight(AVLNode *&current) {
+    if (!current ) {
+        return;
+    }
+
+        int leftHeight = current->left ? current->left->height : -1;
+        int rightHeight = current->right ? current->right->height : -1;
+        current->height = 1+std::max(leftHeight, rightHeight);
+    }
+
+AVLTree::AVLNode* AVLTree::rotateRight(AVLNode*& current) {
+
+    AVLNode* probNode = current->right;
+    AVLNode* hookNode = probNode ? probNode->left : nullptr;
+    if (!probNode) {
+        return hookNode;
+    }
+    probNode->left = current;
+    current->right = hookNode;
+    updateHeight(current);
+    updateHeight(probNode);
+    return probNode;
+}
+AVLTree::AVLNode* AVLTree::rotateLeft(AVLNode*& current) {
+    AVLNode* probNode = current->left;
+    AVLNode* hookNode = probNode ? probNode->right : nullptr;
+    if (!probNode) {
+        return hookNode;
+    }
+    probNode->right = current;
+    current->left = hookNode;
+    updateHeight(current);
+    updateHeight(probNode);
+    return probNode;
 }

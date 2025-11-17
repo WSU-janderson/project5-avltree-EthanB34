@@ -17,20 +17,16 @@ int main() {
 
     AVLTree tree;
     bool insertResult;
-    insertResult = tree.insert("J", 12);
-    insertResult = tree.insert("X", 34);
-    insertResult = tree.insert("S", 12);
-    insertResult = tree.insert("Z", 34);
-    insertResult = tree.insert("G", 12);
-    insertResult = tree.insert("C", 34);
+    insertResult = tree.insert("C", 12);
+    insertResult = tree.insert("A", 34);
+    insertResult = tree.insert("B", 12);
+
 
    // optional val = tree.get("X");
    // cout << *val << endl;
 cout << tree << endl;
-    tree["C"] = 99;
-tree.remove("J");
-    AVLTree tree2 = tree;
-cout << tree2 << endl;
+
+
 
 
     // insertResult = tree.insert("X", 'X');// single rotate left
@@ -82,12 +78,12 @@ cout << tree2 << endl;
 //    cout << endl;
 //
 //    // findRange
-   vector<size_t> rangeTest = tree.findRange("S", "Z");
+ //  vector<size_t> rangeTest = tree.findRange("S", "Z");
 //    // 70 68 82 75 77 ,, 12,34,34
-    for (auto val: rangeTest) {
-        cout << val << " ";
-    }
-    cout << endl << endl;
+   // for (auto val: rangeTest) {
+     //   cout << val << " ";
+    //}
+    //cout << endl << endl;
 //
 //    // operator[]
 //    tree["A"] = 108;
