@@ -17,9 +17,9 @@ int main() {
 
     AVLTree tree;
     bool insertResult;
+    insertResult = tree.insert("A", 12);
+    insertResult = tree.insert("B", 34);
     insertResult = tree.insert("C", 12);
-    insertResult = tree.insert("A", 34);
-    insertResult = tree.insert("B", 12);
 
 
    // optional val = tree.get("X");

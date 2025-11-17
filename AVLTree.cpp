@@ -288,31 +288,34 @@ bool AVLTree::remove(AVLNode*& current,KeyType k) {
 
     }
 }
-void AVLTree::balanceNode(AVLNode* &node) {
+void AVLTree::balanceNode(AVLNode*& node) {
     if (!node) {
         return;
     }
 
 updateHeight(node);
-
-    if (const int bal =  node->getBalance(); bal > 1) {
-        int rightBal = node->right ? node->right->getBalance() : 0;
-        if (rightBal >= 0) {
-           node = rotateLeft(node);
+    int bal = node->getBalance();
+    if (bal >1 ) {
+    int leftBal = node ->left ? node ->left->getBalance() : 0;
+        if (leftBal >= 0 ) {
+            node = rotateRight(node);
         } else {
-           node->right = rotateRight(node->right);
-           node =  rotateLeft(node);
-        }
-    } else if (bal < -1) {
-        int leftBal = node->left ? node->left->getBalance() : 0;
-        if (leftBal <= 0) {
-          node =   rotateRight(node);
-        } else {
-         node->left =    rotateLeft(node->left);
-          node =  rotateRight(node);
+            node -> left = rotateLeft(node->left);
+            node = rotateRight(node);
         }
     }
-}
+   else if (bal < -1) {
+       int rightBal = node -> right ? node -> right ->getBalance() : 0;
+       if (rightBal <= 0 ) {
+           node = rotateLeft(node);
+       } else {
+           node -> right = rotateRight(node -> right);
+           node = rotateLeft(node);
+       }
+   }
+        }
+
+
 
 
 
@@ -329,26 +332,23 @@ void AVLTree::updateHeight(AVLNode *&current) {
 
 AVLTree::AVLNode* AVLTree::rotateRight(AVLNode*& current) {
 
-    AVLNode* probNode = current->right;
-    AVLNode* hookNode = probNode ? probNode->left : nullptr;
-    if (!probNode) {
-        return hookNode;
-    }
-    probNode->left = current;
-    current->right = hookNode;
+    AVLNode* newRoot = current->left;
+    AVLNode* hookNode = newRoot -> right;
+
+    newRoot -> right = current;
+    current->left = hookNode;
+
     updateHeight(current);
-    updateHeight(probNode);
-    return probNode;
+    updateHeight(hookNode);
+    return newRoot;
 }
 AVLTree::AVLNode* AVLTree::rotateLeft(AVLNode*& current) {
-    AVLNode* probNode = current->left;
-    AVLNode* hookNode = probNode ? probNode->right : nullptr;
-    if (!probNode) {
-        return hookNode;
-    }
-    probNode->right = current;
-    current->left = hookNode;
+    AVLNode* newRoot = current->right;
+    AVLNode* hookNode = newRoot -> left;
+
+    newRoot -> left = current;
+    current->right = hookNode;
     updateHeight(current);
-    updateHeight(probNode);
-    return probNode;
+    updateHeight(hookNode);
+    return newRoot;
 }
