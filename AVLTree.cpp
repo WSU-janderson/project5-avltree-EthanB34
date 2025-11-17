@@ -267,6 +267,7 @@ bool AVLTree::remove(AVLNode*& current,KeyType k) {
         bool removed = remove(current->left,k);
         if (removed) {
             updateHeight(current);
+            balanceNode(current);
         }
         return removed;
     }
@@ -274,6 +275,7 @@ bool AVLTree::remove(AVLNode*& current,KeyType k) {
         bool removed = remove(current->right,k);
         if (removed) {
            updateHeight(current);
+            balanceNode(current);
         }
         return removed;
 
@@ -282,6 +284,7 @@ bool AVLTree::remove(AVLNode*& current,KeyType k) {
         bool removed = removeNode(current);
         if (current) {
            updateHeight(current);
+            balanceNode(current);
         }
 
         return removed;

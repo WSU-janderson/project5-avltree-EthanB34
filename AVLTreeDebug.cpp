@@ -20,6 +20,8 @@ int main() {
     insertResult = tree.insert("A", 12);
     insertResult = tree.insert("B", 34);
     insertResult = tree.insert("C", 12);
+    insertResult = tree.insert("D", 34);
+    tree.remove("B");
 
 
    // optional val = tree.get("X");
