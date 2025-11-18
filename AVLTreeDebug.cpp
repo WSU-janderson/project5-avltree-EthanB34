@@ -96,6 +96,7 @@ int main() {
     removeResult = tree.remove("X");
     removeResult = tree.remove("Z"); // double rotate right
     cout << endl << endl;
-    cout << tree << endl;
+ cout << tree << endl;
+
     return 0;
 }
